@@ -17,7 +17,7 @@ class Downloader {
                     new BufferedWriter(new FileWriter(webPageName));
 
             String currentLine;
-            
+
             while ((currentLine = bufferedReader.readLine()) != null) {
                 bufferedWriter.write(currentLine);
                 bufferedWriter.write("\n");
