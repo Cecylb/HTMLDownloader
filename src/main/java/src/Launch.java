@@ -11,10 +11,7 @@ public class Launch {
             System.exit(1);
         }
 
-            String url = args[0];
-            String name = args[1];
-
-        DownloadWebPage(url, name);
+        DownloadWebPage(args[0], args[1]);
 
     }
 }

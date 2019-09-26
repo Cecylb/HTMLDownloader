@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 
 class Downloader {
 
-    static void DownloadWebPage(String webPageLink, String webPageName) {
+    static void DownloadWebPage(final String webPageLink, final  String webPageName) {
         
         try {
 
