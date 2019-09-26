@@ -19,6 +19,7 @@ class Downloader {
             String currentLine;
             while ((currentLine = readBuffer.readLine()) != null) {
                 writeBuffer.write(currentLine);
+                writeBuffer.write("\n");
             }
 
             readBuffer.close();
