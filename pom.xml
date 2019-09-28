@@ -28,7 +28,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>src.Launch</mainClass>
+                            <mainClass>downloader.Launch</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

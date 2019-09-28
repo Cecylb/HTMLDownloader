@@ -1,2 +1,3 @@
-src/Launch.class
-src/Downloader.class
+downloader/Launch.class
+downloader/ParsablePatterns.class
+downloader/Downloader.class

@@ -1,2 +1,3 @@
-/home/cecylb/Documents/Git/Downloads/htmldownloader/src/main/java/src/Launch.java
-/home/cecylb/Documents/Git/Downloads/htmldownloader/src/main/java/src/Downloader.java
+/home/cecylb/Documents/Git/Downloads/htmldownloader/src/main/java/downloader/Launch.java
+/home/cecylb/Documents/Git/Downloads/htmldownloader/src/main/java/downloader/ParsablePatterns.java
+/home/cecylb/Documents/Git/Downloads/htmldownloader/src/main/java/downloader/Downloader.java
