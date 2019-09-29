@@ -11,7 +11,7 @@ public class Launch {
             System.exit(1);
         } */
 
-        DownloadWebPage("https://vk.com/album-106901869_234935849", "vkalbum.html");
+        DownloadWebPage("https://www.youtube.com/", "youtube.html");
 
         //DownloadWebPage(args[0], args[1]);
 

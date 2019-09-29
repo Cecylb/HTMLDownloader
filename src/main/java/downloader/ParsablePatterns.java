@@ -8,8 +8,8 @@ public enum ParsablePatterns {
     //HTTP("HTTP", Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")),
     JPG("JPG", Pattern.compile("https.+?.jpg")),
     //SVG("SVG", Pattern.compile("https.+?.svg")),
-    //CSS("CSS", Pattern.compile("https.+?.css")),
-    //JS("JS", Pattern.compile("https.+(?=\")?.js"));
+    CSS("CSS", Pattern.compile("<link rel=\".+?\" href=\".css\".+?>")),
+    JS("JS", Pattern.compile("<script.+?src=\".+?.js\".+?></script>")),
 
     A("<A", Pattern.compile("<a")),
     BASE("<BASE", Pattern.compile("<base")),
