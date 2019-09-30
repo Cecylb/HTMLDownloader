@@ -6,7 +6,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 
@@ -21,7 +20,7 @@ class Downloader {
                     new BufferedReader(new InputStreamReader(url.openStream()));
 
             BufferedWriter bufferedWriter =
-                    new BufferedWriter(new FileWriter(webPageName));
+                    new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + webPageName));
 
             String currentLine;
 
@@ -77,8 +76,8 @@ class Downloader {
         try {
             BufferedImage image = ImageIO.read(new URL(imageFile));
             System.out.println(getFilePath(imageFile));
-            Files.createDirectories(Paths.get(getFilePath(imageFile)));
-                    ImageIO.write(image, "png", new File(imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")));
+            Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(imageFile)));
+                    ImageIO.write(image, "png", new File(System.getProperty("user.home") + "/HTMLDownloader/" + imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")));
         } catch (MalformedURLException mue) {
             System.out.println("Error: Bad image URL");
         } catch (IOException ie) {
@@ -116,9 +115,9 @@ class Downloader {
             String path = trimJs(jsFile);
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(new URL( "https://" + url.getHost() + trimJs(jsFile)).openStream()));
-            Files.createDirectories(Paths.get(getFilePath(path).replaceFirst("/", "")));
+            Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
             BufferedWriter bufferedWriter =
-                    new BufferedWriter(new FileWriter(path.replaceFirst("/", "")));
+                    new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + path));
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
                 bufferedWriter.write(currentLine);
