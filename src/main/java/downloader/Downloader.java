@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
@@ -16,6 +17,12 @@ class Downloader {
         try {
 
             URL url = new URL(webPageLink);
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+
+            System.out.println(toString(urlConnection.getInputStream()));
+
+
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(url.openStream()));
 
@@ -50,7 +57,6 @@ class Downloader {
     private static void scanLine(final URL url, final String currentLine) throws IOException {
         for (ParsablePatterns parsablePattern : ParsablePatterns.values()) {
             Matcher matcher = parsablePattern.pattern.matcher(currentLine);
-            System.out.println(currentLine);
             while(matcher.find()) {
                 switch (parsablePattern.patternType) {
                     case "PNG":
@@ -89,12 +95,15 @@ class Downloader {
         System.out.println("FOUND CSS");
         System.out.println(cssFile);
         System.out.println("----");
-        try {
-            String path = trimCss(cssFile);
+
+        String path = trimCss(cssFile);
+        Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
+        try (
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(new URL(cssFile).openStream()));
             BufferedWriter bufferedWriter =
-                    new BufferedWriter(new FileWriter("cssFile"));
+                    new BufferedWriter(new FileWriter("cssFile"))
+        ) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
                 bufferedWriter.write(currentLine);
@@ -148,6 +157,21 @@ class Downloader {
     private static String trimCss(final String cssLink) {
          String cssLinkNoHead = cssLink.replaceFirst("<link rel=\".+?\" href=\"","");
          return cssLinkNoHead.replaceFirst("\".+?>", "");
+    }
+
+    private static String toString(InputStream inputStream) throws IOException
+    {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")))
+        {
+            String inputLine;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((inputLine = bufferedReader.readLine()) != null)
+            {
+                stringBuilder.append(inputLine);
+            }
+
+            return stringBuilder.toString();
+        }
     }
 
     /*

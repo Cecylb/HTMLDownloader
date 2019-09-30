@@ -9,7 +9,7 @@ public enum ParsablePatterns {
     JPG("JPG", Pattern.compile("https.+?.jpg")),
     //SVG("SVG", Pattern.compile("https.+?.svg")),
     CSS("CSS", Pattern.compile("<link rel=\".+?\" href=\".css\".+?>")),
-    JS("JS", Pattern.compile("<script.+?src=\".+?.js\".+?></script>")),
+    JS("JS", Pattern.compile("<script.+?src=\".+?.js.+?></script>")),
 
     A("<A", Pattern.compile("<a")),
     BASE("<BASE", Pattern.compile("<base")),
