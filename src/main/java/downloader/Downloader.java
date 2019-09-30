@@ -20,9 +20,9 @@ class Downloader {
             URLConnection urlConnection = url.openConnection();
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
-            System.out.println(toString(urlConnection.getInputStream()));
+            System.out.println(toString(urlConnection.getInputStream(), url, webPageName));
 
-
+/*
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(url.openStream()));
 
@@ -38,7 +38,7 @@ class Downloader {
             }
 
             bufferedReader.close();
-            bufferedWriter.close();
+            bufferedWriter.close(); */
             System.out.println("Website was successfully downloaded.");
         }
 
@@ -65,7 +65,7 @@ class Downloader {
                         loadImage(matcher.group());
                         break;
                     case "CSS":
-                        loadCSS(matcher.group());
+                        loadCSS(url, matcher.group());
                         break;
                     case "JS":
                         loadJS(url, matcher.group());
@@ -81,7 +81,6 @@ class Downloader {
         //System.out.println("----");
         try {
             BufferedImage image = ImageIO.read(new URL(imageFile));
-            System.out.println(getFilePath(imageFile));
             Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(imageFile)));
                     ImageIO.write(image, "png", new File(System.getProperty("user.home") + "/HTMLDownloader/" + imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")));
         } catch (MalformedURLException mue) {
@@ -91,18 +90,18 @@ class Downloader {
         }
     }
 
-    private static void loadCSS(final String cssFile) throws IOException {
-        System.out.println("FOUND CSS");
-        System.out.println(cssFile);
-        System.out.println("----");
+    private static void loadCSS(final URL url, final String cssFile) throws IOException {
+        //System.out.println("FOUND CSS");
+        //System.out.println(cssFile);
+        //System.out.println("----");
 
         String path = trimCss(cssFile);
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
         try (
             BufferedReader bufferedReader =
-                    new BufferedReader(new InputStreamReader(new URL(cssFile).openStream()));
+                    new BufferedReader(new InputStreamReader(new URL( "https://" + url.getHost() + trimCss(cssFile)).openStream()));
             BufferedWriter bufferedWriter =
-                    new BufferedWriter(new FileWriter("cssFile"))
+                    new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + path));
         ) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
@@ -159,14 +158,22 @@ class Downloader {
          return cssLinkNoHead.replaceFirst("\".+?>", "");
     }
 
-    private static String toString(InputStream inputStream) throws IOException
+    private static String toString(final InputStream inputStream, final URL url, final String webPageName) throws IOException
     {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8")))
+        try (
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                BufferedWriter bufferedWriter =
+                        new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + webPageName));)
         {
             String inputLine;
             StringBuilder stringBuilder = new StringBuilder();
             while ((inputLine = bufferedReader.readLine()) != null)
             {
+                scanLine(url, inputLine);
+                bufferedWriter.write(inputLine);
+                bufferedWriter.write("\n");
+                stringBuilder.append("\n");
                 stringBuilder.append(inputLine);
             }
 

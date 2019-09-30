@@ -6,9 +6,9 @@ public enum ParsablePatterns {
 
     PNG("PNG", Pattern.compile("(?=\"https).+\"?(?=.png\")")),
     //HTTP("HTTP", Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")),
-    JPG("JPG", Pattern.compile("https.+?.jpg")),
+    JPG("JPG", Pattern.compile("https://.+?.jpg")),
     //SVG("SVG", Pattern.compile("https.+?.svg")),
-    CSS("CSS", Pattern.compile("<link rel=\".+?\" href=\".css\".+?>")),
+    CSS("CSS", Pattern.compile("<link rel=\".+?\" href=\".+?.css\".+?>")),
     JS("JS", Pattern.compile("<script.+?src=\".+?.js.+?></script>")),
 
     A("<A", Pattern.compile("<a")),
