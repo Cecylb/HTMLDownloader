@@ -111,13 +111,14 @@ class Downloader {
         //System.out.println("FOUND JS");
         //System.out.println(url.getHost() + trimJs(jsFile));
         //System.out.println("----");
-        try {
-            String path = trimJs(jsFile);
+        String path = trimJs(jsFile);
+        Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
+        try (
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(new URL( "https://" + url.getHost() + trimJs(jsFile)).openStream()));
-            Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
             BufferedWriter bufferedWriter =
                     new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + path));
+        ) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
                 bufferedWriter.write(currentLine);
