@@ -74,10 +74,9 @@ class Downloader {
 
     private static String cacheImage(final String imageFile, final String currentHtmlLine) throws IOException {
         //System.out.println("FOUND IMAGE");
-        System.out.println(imageFile); // Regex bug
+        //System.out.println(imageFile); // Regex bug
         //System.out.println("----");
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(imageFile, imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)",""));
-        System.out.println(editedCurrentHtmlLine);
         try {
             BufferedImage image = ImageIO.read(new URL(imageFile));
             Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(imageFile)));
@@ -95,6 +94,7 @@ class Downloader {
         //System.out.println(cssFile);
         //System.out.println("----");
 
+        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(cssFile, cssFile.replaceFirst("/",""));
         String path = trimCss(cssFile);
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
         try (
@@ -109,13 +109,15 @@ class Downloader {
                 bufferedWriter.write("\n");
             }
         }
-        return currentHtmlLine;
+        return editedCurrentHtmlLine;
     }
 
     private static String cacheJS(final URL url, final String jsFile, final String currentHtmlLine) throws IOException {
         //System.out.println("FOUND JS");
         //System.out.println(url.getHost() + trimJs(jsFile));
         //System.out.println("----");
+
+        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(jsFile, jsFile.replaceFirst("/",""));
         String path = trimJs(jsFile);
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
         try (
@@ -130,7 +132,7 @@ class Downloader {
                 bufferedWriter.write("\n");
             }
         }
-        return currentHtmlLine;
+        return editedCurrentHtmlLine;
     }
 
     private static String getFilePath(final String urlLink) {
