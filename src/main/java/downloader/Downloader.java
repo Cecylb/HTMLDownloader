@@ -12,13 +12,13 @@ import java.util.regex.Matcher;
 
 class Downloader {
 
-     static void DownloadWebPage(final String webPageLink, final String webPageName) {
+     static void DownloadWebPage(final String webPageLink) {
 
         try {
             URL url = new URL(webPageLink);
             URLConnection urlConnection = url.openConnection();
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-            System.out.println(toString(urlConnection.getInputStream(), url, webPageName));
+            System.out.println(toString(urlConnection.getInputStream(), url));
             System.out.println("Website was successfully downloaded.");
         } catch (MalformedURLException mue) {
             System.out.println("Error: Bad URL");
@@ -27,7 +27,7 @@ class Downloader {
         }
     }
 
-    private static String toString(final InputStream inputStream, final URL url, final String webPageName) throws IOException
+    private static String toString(final InputStream inputStream, final URL url) throws IOException
     {
         try (
                 BufferedReader bufferedReader =
@@ -73,8 +73,8 @@ class Downloader {
     }
 
     private static String cacheImage(final String imageFile, final String currentHtmlLine) throws IOException {
-        //System.out.println("FOUND IMAGE");
-        //System.out.println(imageFile); // Regex bug
+        System.out.println("FOUND IMAGE");
+        System.out.println(trimJs(imageFile)); // Regex bug
         //System.out.println("----");
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(imageFile, imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)",""));
         try {
@@ -90,16 +90,18 @@ class Downloader {
     }
 
     private static String cacheCSS(final URL url, final String cssFile, final String currentHtmlLine) throws IOException {
-        //System.out.println("FOUND CSS");
-        //System.out.println(cssFile);
+        System.out.println("FOUND CSS");
+        System.out.println(trimCss(cssFile));
         //System.out.println("----");
 
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(cssFile, cssFile.replaceFirst("/",""));
         String path = trimCss(cssFile);
+        System.out.println(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path)));
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
+        String cssUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
         try (
             BufferedReader bufferedReader =
-                    new BufferedReader(new InputStreamReader(new URL( "https://" + url.getHost() + trimCss(cssFile)).openStream()));
+                    new BufferedReader(new InputStreamReader(new URL(cssUrl).openStream()));
             BufferedWriter bufferedWriter =
                     new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + path));
         ) {
@@ -108,21 +110,26 @@ class Downloader {
                 bufferedWriter.write(currentCssLine);
                 bufferedWriter.write("\n");
             }
+        }  catch (MalformedURLException mue) {
+            System.out.println("Error: Bad CSS URL");
+        } catch (IOException ie) {
+            System.out.println("Error: CSS IOException");
         }
         return editedCurrentHtmlLine;
     }
 
     private static String cacheJS(final URL url, final String jsFile, final String currentHtmlLine) throws IOException {
-        //System.out.println("FOUND JS");
-        //System.out.println(url.getHost() + trimJs(jsFile));
+        System.out.println("FOUND JS");
+        System.out.println(trimJs(jsFile));
         //System.out.println("----");
 
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(jsFile, jsFile.replaceFirst("/",""));
         String path = trimJs(jsFile);
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
+        String jsUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
         try (
             BufferedReader bufferedReader =
-                    new BufferedReader(new InputStreamReader(new URL( "https://" + url.getHost() + trimJs(jsFile)).openStream()));
+                    new BufferedReader(new InputStreamReader(new URL( jsUrl).openStream()));
             BufferedWriter bufferedWriter =
                     new BufferedWriter(new FileWriter(System.getProperty("user.home") + "/HTMLDownloader/" + path));
         ) {
@@ -131,12 +138,16 @@ class Downloader {
                 bufferedWriter.write(currentJsLine);
                 bufferedWriter.write("\n");
             }
+        }  catch (MalformedURLException mue) {
+            System.out.println("Error: Bad JS URL");
+        } catch (IOException ie) {
+            System.out.println("Error: JS IOException");
         }
         return editedCurrentHtmlLine;
     }
 
     private static String getFilePath(final String urlLink) {
-         String editedUrlLink = urlLink.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","");
+         String editedUrlLink = urlLink.replaceFirst(ParsablePatterns.HTTP.pattern.toString(),"");
          return editedUrlLink.substring(0, editedUrlLink.lastIndexOf(File.separator));
     }
 
@@ -146,12 +157,12 @@ class Downloader {
 
     private static String trimJs(final String jsLink) {
          String jsLinkNoHead = jsLink.replaceFirst("<script.+?src=\"", "");
-          return jsLinkNoHead.replaceFirst("\" .+?></script>", "");
+         return jsLinkNoHead.replaceFirst("\".*?></script>", "");
     }
 
     private static String trimCss(final String cssLink) {
-         String cssLinkNoHead = cssLink.replaceFirst("<link rel=\".+?\" href=\"","");
-         return cssLinkNoHead.replaceFirst("\".+?>", "");
+         String cssLinkNoHead = cssLink.replaceFirst("<link.*?href=\"","");
+         return cssLinkNoHead.replaceFirst("\\.css.*?>", "") + ".css"; //idk how to make it better yet
     }
 
 

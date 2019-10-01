@@ -4,12 +4,13 @@ import java.util.regex.Pattern;
 
 public enum ParsablePatterns {
 
-    PNG("PNG", Pattern.compile("https://.+(?=\")?\\.png")),
+    PNG("PNG", Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.png")),
     //HTTP("HTTP", Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")),
-    JPG("JPG", Pattern.compile("https://.+(?=\")?\\.jpg")),
+    JPG("JPG", Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.jpg")),
     //SVG("SVG", Pattern.compile("https.+?.svg")),
-    CSS("CSS", Pattern.compile("<link rel=\".+?\" href=\".+?\\.css\".+?>")),
-    JS("JS", Pattern.compile("<script.+?src=\".+?\\.js.+?></script>")),
+    CSS("CSS", Pattern.compile("<link.*?href=\".+?\\.css.*?\".+?>")),
+    JS("JS", Pattern.compile("<script.+?src=\".+?\\.js.*?></script>")),
+    HTTP("HTTP", Pattern.compile("^(http[s]?://www\\.|http[s]?://|www\\.)")),
 
     A("<A", Pattern.compile("<a")),
     BASE("<BASE", Pattern.compile("<base")),
