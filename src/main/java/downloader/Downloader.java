@@ -73,8 +73,8 @@ class Downloader {
     }
 
     private static String cacheImage(final String imageFile, final String currentHtmlLine) throws IOException {
-        System.out.println("FOUND IMAGE");
-        System.out.println(trimJs(imageFile)); // Regex bug
+        //System.out.println("FOUND IMAGE");
+        //System.out.println(trimJs(imageFile)); // Regex bug
         //System.out.println("----");
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(imageFile, imageFile.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)",""));
         try {
@@ -98,7 +98,9 @@ class Downloader {
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(path, path.replaceFirst("/",""));
         System.out.println(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path)));
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
-        String cssUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
+        String cssUrl = (path.matches("^(http[s]?://www\\.|http[s]?://|www\\.).*")? path : "https://" + url.getHost() + path);
+        System.out.println(cssUrl);
+        System.out.println(getFilePath(path));
         try (
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(new URL(cssUrl).openStream()));
@@ -126,7 +128,11 @@ class Downloader {
         String path = trimJs(jsFile);
         String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(path, path.replaceFirst("/",""));
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
-        String jsUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
+        System.out.println("PATH: " + path);
+        System.out.println("URL HOST: " + url.getHost());
+        String jsUrl = (path.matches("^(http[s]?://www\\.|http[s]?://|www\\.).*")? path : "https://" + url.getHost() + path);
+        System.out.println("URL JS: :" + jsUrl);
+        System.out.println("GET FILE PATH: " + getFilePath(path));
         try (
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(new URL( jsUrl).openStream()));

@@ -11,7 +11,7 @@ public class Launch {
             System.exit(1);
         } */
 
-        DownloadWebPage("https://www.youtube.com");
+        DownloadWebPage("https://www.bbc.com/news/world-asia-china-49891403");
 
         //DownloadWebPage(args[0]);
 
