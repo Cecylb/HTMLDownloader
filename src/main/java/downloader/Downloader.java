@@ -94,8 +94,8 @@ class Downloader {
         System.out.println(trimCss(cssFile));
         //System.out.println("----");
 
-        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(cssFile, cssFile.replaceFirst("/",""));
         String path = trimCss(cssFile);
+        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(path, path.replaceFirst("/",""));
         System.out.println(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path)));
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
         String cssUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
@@ -123,8 +123,8 @@ class Downloader {
         System.out.println(trimJs(jsFile));
         //System.out.println("----");
 
-        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(jsFile, jsFile.replaceFirst("/",""));
         String path = trimJs(jsFile);
+        String editedCurrentHtmlLine = currentHtmlLine.replaceFirst(path, path.replaceFirst("/",""));
         Files.createDirectories(Paths.get(System.getProperty("user.home") + "/HTMLDownloader/" + getFilePath(path).replaceFirst("/", "")));
         String jsUrl = (path.matches(ParsablePatterns.HTTP.pattern.toString())? path : "https://" + url.getHost() + path);
         try (
