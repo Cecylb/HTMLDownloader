@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 public enum ParsablePatterns {
 
     PNG(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.png")),
-    SVG(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.svg")),
-    ICO(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.ico")),
+    //SVG(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.svg")),
+    //ICO(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.ico")),
     JPG(Pattern.compile("https:\\/\\/.[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]?.jpg")),
     CSS(Pattern.compile("<link.*?href=\".+?\\.css")),
     //CSS(Pattern.compile("<link.*?href=\".+?\\.css.*?\".*?>")),

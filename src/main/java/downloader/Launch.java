@@ -11,7 +11,7 @@ public class Launch {
             System.exit(1);
         } */
 
-        new Downloader().download("https://www.youtube.com");
+        new Downloader().download("https://www.ozon.ru/");
 
         //"https://www.bbc.com/news/world-asia-china-49891403"
         //"https://geekboards.ru/collection/keyboards"

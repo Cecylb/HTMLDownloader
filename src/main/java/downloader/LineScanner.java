@@ -16,6 +16,8 @@ public interface LineScanner {
             while(matcher.find()) {
                 switch (parsablePattern) {
                     case PNG:
+                    //case ICO:
+                    //case SVG:
                     case JPG:
                         editedCurrentHtmlLine = new Image(matcher.group(), editedCurrentHtmlLine).getEditedCurrentHtmlLine();
                         break;

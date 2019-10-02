@@ -24,7 +24,6 @@ public class Utils {
     }
 
     public static void writeInFile(final String path, final URL url) {
-        System.out.println(path);
         try (
                 BufferedReader bufferedReader =
                         new BufferedReader(new InputStreamReader(new URL(resolveUrl(path, url)).openStream()));

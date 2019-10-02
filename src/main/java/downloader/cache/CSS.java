@@ -12,13 +12,14 @@ public class CSS implements Cache {
 
     public CSS(final URL url, final String cssUrl, final String currentHtmlLine) throws IOException {
         String path = trimCss(cssUrl);
+        System.out.println(path);
         editedCurrentHtmlLine = currentHtmlLine.replaceFirst(path, checkPath(path));
         WorkingDirectory.createDirectories(path);
         writeInFile(path, url);
     }
 
     private static String trimCss(final String cssLink) {
-        return cssLink.replaceFirst("<link.*?href=\"","").replaceFirst("\\.css.*?>", ""); //idk how to make it better yet
+        return cssLink.replaceFirst(".*<link.*?href=\"","").replaceFirst("\\.css.*?>", ""); //idk how to make it better yet
     }
 
     @Override
