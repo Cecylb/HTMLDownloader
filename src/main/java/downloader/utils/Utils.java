@@ -24,11 +24,14 @@ public class Utils {
     }
 
     public static void writeInFile(final String path, final URL url) {
+        System.out.println(path);
         try (
                 BufferedReader bufferedReader =
                         new BufferedReader(new InputStreamReader(new URL(resolveUrl(path, url)).openStream()));
                 BufferedWriter bufferedWriter =
-                        new BufferedWriter(new FileWriter(WorkingDirectory.getFile(path)));
+                        new BufferedWriter(
+                                new FileWriter(WorkingDirectory.getFile((checkPath(path))))
+                        )
         ) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
@@ -39,4 +42,11 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
+    public static String checkPath(String path) {
+        return (path.matches(ParsablePatterns.HTTPETC.pattern.toString())
+                ? path.replaceFirst(ParsablePatterns.HTTP.pattern.toString(), "")
+                : path.replaceFirst("/", ""));
+    }
+
 }

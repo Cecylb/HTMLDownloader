@@ -11,7 +11,12 @@ public class Launch {
             System.exit(1);
         } */
 
-        new Downloader().download("https://www.bbc.com/news/world-asia-china-49891403");
+        new Downloader().download("https://www.youtube.com");
+
+        //"https://www.bbc.com/news/world-asia-china-49891403"
+        //"https://geekboards.ru/collection/keyboards"
+        //"https://www.youtube.com"
+        //"https://vk.com/album-106901869_234935849"
 
         //new Downloader().download(args[0]);
 

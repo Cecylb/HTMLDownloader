@@ -15,8 +15,6 @@ public class Image implements Cache {
     private final String html = ParsablePatterns.HTTP.pattern.toString();
 
     public Image(final String imageUrl, final String currentHtmlLine) {
-        //System.out.println(imageUrl); // Regex bug
-        //System.out.println("----");
         editedCurrentHtmlLine = currentHtmlLine.replaceFirst(imageUrl, removeHost(imageUrl));
         writeImage(imageUrl);
     }
